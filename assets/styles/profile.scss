@@ -1,0 +1,327 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  box-sizing: border-box;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100%;
+  // height: 100vh;
+  font-family: 'Poppins';
+
+  .background {
+    background: url(../images/background-image.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 100vh;
+    opacity: .3;
+    z-index: -2;
+
+  }
+
+}
+
+section {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.details {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  h1 {
+    font-size: 30px;
+    border-bottom: 2px solid;
+    margin-bottom: 40px;
+  }
+
+  form {
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 80px;
+    gap: 50px;
+    flex-direction: column;
+
+    label {
+      display: none;
+    }
+
+
+    .first_index {
+      @extend form;
+      margin-top: 0;
+
+      .first {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        .capsule {
+          width: 42%;
+
+          input,
+          select {
+            width: 90%;
+            // height: 50px;
+            border: 2px solid;
+            border-radius: 7px;
+            padding: 15px;
+            font-size: 20px;
+
+            // transition: all .6s ease-in-out;
+            &::placeholder {
+              color: rgb(0, 0, 0);
+              font-size: 20px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+          }
+
+          #first_name_error,
+          #last_name_error,
+          #middle_name_error,
+          #gender_error,
+          #dob_error,
+          #phone_number_error,
+          #school_email_error,
+          #marital_status_error,
+          #nationality_error,
+          #address_error,
+          #disability_error,
+          #experience_error,
+          #experience_location_error,
+          #language_error,
+          #passport_error,
+          #signature_error,
+          #matric_number_error,
+          #level_error,
+          #year_error,
+          #year_of_entry_error,
+          #department_error,
+          #faculty_error,
+          #next_of_kin_error,
+          #next_of_kin_address_error,
+          #next_of_kin_phone_number_error,
+          #next_of_kin_relationship_error {
+            // display: none;
+            position: absolute;
+            // top: 0;
+            bottom: -30px;
+            width: 90%;
+            margin-bottom: -2px;
+            text-align: center;
+            display: none;
+          }
+        }
+
+
+
+      }
+
+      .second,
+      .third {
+        @extend .first;
+      }
+    }
+
+    .second_index {
+      @extend .first_index;
+      display: none;
+
+      &:first-child {
+        display: block;
+      }
+    }
+
+    .third_index {
+      @extend .first_index;
+      display: none;
+    }
+
+    .fourth_index {
+      @extend .first_index;
+      display: none;
+    }
+
+    .fifth_index {
+      @extend .first_index;
+      display: none;
+    }
+  }
+}
+
+footer {
+  width: 90%;
+  margin: 0 auto;
+  //  position: absolute;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .circles {
+    display: flex;
+    gap: 25px;
+    width: fit-content;
+    margin: 0 auto;
+
+    .circ {
+      border: 2px solid;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+    }
+
+    .active {
+      background-color: #000000;
+    }
+  }
+
+
+
+  #prev-btn,
+  #next-btn {
+    // padding-bottom: 10px;
+    cursor: pointer;
+
+  }
+
+  button {
+    display: none;
+    // width: 180px;
+    // height: 50px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: transparent;
+    border: 2px solid #000000;
+    border-radius: 7px;
+    padding: 10px;
+  }
+
+  #prev-btn {
+    visibility: hidden;
+    transform: rotate(180deg);
+
+  }
+
+}
+
+input[type="file"] {
+  display: none !important;
+}
+
+.passport,
+.signature {
+  font-family: inherit;
+  width: 90%;
+  font-size: 20px;
+  cursor: pointer;
+  border: 2px solid #000000;
+  border-radius: 7px;
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: #ffffff;
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+
+.error {
+  background-color: rgb(255, 187, 0);
+  border-top: 3px solid red;
+  padding: 5px;
+  z-index: 5;
+}
+
+.success {
+  background-color: rgb(158, 255, 1);
+  border-top: 3px solid green;
+  padding: 5px;
+}
+
+
+
+@media (max-width:430px) {
+  .details {
+    h1 {
+      margin-bottom: 20px;
+    }
+  }
+
+  form {
+    margin-top: 30px !important;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 100px;
+
+    .first {
+      flex-wrap: wrap;
+      gap: 20px;
+
+      .capsule {
+        width: 100%;
+
+        input,
+        select,
+        .passport,
+        .signature {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+
+  footer {
+    button {
+      width: 120px;
+      // height: 20px;
+      font-size: 15px;
+    }
+
+    #prev-btn,
+    #next-btn {
+      width: 50px;
+
+    }
+
+
+    .circles {
+      width: 150px;
+      gap: 0;
+      justify-content: space-around;
+
+      .circ {
+        width: 10px;
+        height: 10px;
+
+      }
+    }
+  }
+
+  .footer {
+    display: none;
+  }
+}

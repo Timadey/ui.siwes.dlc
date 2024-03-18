@@ -1,0 +1,12 @@
+{
+    "mysql": {
+        "host": "localhost",
+        "username": "username",
+        "password": "password",
+        "databases": [
+            "database1"
+        ]
+    },
+    "active": true,
+    "devMode": true
+}
