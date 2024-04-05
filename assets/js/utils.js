@@ -41,7 +41,7 @@ export function fireAlert(type, title, text){
     });
 }
 
-export function handleFieldErrors(fields, errors){
+export function handleFieldErrors(fields, errors, errorLabelSuffix = '_error'){
     let errorField;
     for (const error in errors) {
         if (error == 'non_field_errors'){
@@ -52,7 +52,7 @@ export function handleFieldErrors(fields, errors){
         }else{
             fireAlert('error', 'Oh No!', 'You have some errors in your input');
             if (error in fields && error in errors){
-                errorField = $(`#${fields[error].attr('id')}_error`);console.log(errorField, error);
+                errorField = $(`#${fields[error].attr('id')}${errorLabelSuffix}`);console.log(errorField, error);
 
                 errorField.html("<p>* " + errors[error].join("</p><p>* " ) + "</p>");
                 errorField.css('display', 'block');

@@ -69,7 +69,7 @@ class Database
      * Return: an associative array containing the fields gotten or NULL if not found
      */
     public function dbGetData(array $column = NULL, string $from, array $join = NULL,
-     array $where, array $value, string $order = null,
+     array $where = NULL, array $value = NULL, string $order = null,
     array $limit = null)
     {
         if ($this->conn == NULL){
@@ -83,18 +83,22 @@ class Database
         }
 
         if ($column == NULL){
-            $query = "SELECT * FROM $from WHERE ";
+            $query = "SELECT * FROM $from";
         }else{
             $column = implode(", ", $column);
-            $query = "SELECT $column FROM $from WHERE ";
+            $query = "SELECT $column FROM $from";
+        }
+
+        if ($where != NULL) {
+            $query .= " WHERE ";
+            $where_list = array();
+            foreach ($where as $col => $ph) {
+                $where_list[] = $col.' = '.$ph;
+            }
+            $where = implode(' AND ', $where_list);
+            $query .= $where;
         }
         
-        $where_list = array();
-        foreach ($where as $col => $ph) {
-            $where_list[] = $col.' = '.$ph;
-        }
-        $where = implode(' AND ', $where_list);
-        $query .= $where;
         $query .= $order ?? '';
         $query .= $limit ? " LIMIT ".implode(', ', $limit) : '';
         // echo $query; exit;
