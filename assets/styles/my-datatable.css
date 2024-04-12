@@ -1,0 +1,33 @@
+/* CSS to prevent search button overflow */
+.dataTables_wrapper .dataTables_filter {
+    width: 100%;
+    text-align: center;
+}
+
+.dataTables_wrapper .dataTables_filter input[type="search"] {
+    width: 100%;
+    display: inline-block;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    padding-right: 30px;
+    transition: border-color 0.3s;
+    font-weight: 400;
+}
+
+.dataTables_wrapper .dataTables_filter input[type="search"]:focus {
+    border-color: #007bff;
+}
+
+.dataTables_wrapper .dataTables_filter input[type="search"]::-webkit-input-placeholder {
+    text-align: center;
+}
+
+.dataTables_wrapper .dataTables_filter input[type="search"]::-moz-placeholder {
+    text-align: center;
+}
+
+.dataTables_wrapper .dataTables_filter input[type="search"]:-ms-input-placeholder {
+    text-align: center;
+}

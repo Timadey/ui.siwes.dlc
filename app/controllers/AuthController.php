@@ -8,6 +8,7 @@ class AuthController
 {
         public static function login(Router $router)
         {
+                // var_dump($_SESSION); exit;
                 if (isset($_SESSION['user_id']) && isset($_SESSION['email']) && isset($_SESSION['name'])){
                         return $router->renderView("auth/logged_in_as",['page_title' => 'You are logged in'], 'layouts/auth_layout');
                 }
@@ -62,7 +63,7 @@ class AuthController
                                         $_SESSION['email'] = $user->getEmail();
                                         $_SESSION['name'] = $user->getUname();
                                         $_SESSION['login'] = $user->getLogin();
-                                        echo header("Location: /");
+                                        echo header("Location: /siwes/dlc/backdoor");
                                 }
                                 else $router->renderView('auth/login', [
                                         'page_title' => 'Login',

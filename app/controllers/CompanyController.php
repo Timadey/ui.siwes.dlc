@@ -16,25 +16,20 @@ class CompanyController
      */
     public static function index(Router $router)
     {
-        // $companies = (new Company($router->dbs))->all();
-        $companies = [
-            [
-                'name' => "Anjola Consulats",
-                'email' => 'anjola@consults.com'
-            ],
-            [
-                'name' => "Yakoyo Foods",
-                'email' => 'yakoyo@food.com'
-            ],
-            [
-                'name' => "Baby gbotemi",
-                'email' => 'baby@gbotemi.com'
-            ]
-        ];
         return $router->renderView('company/index', [
-            'companies' => $companies,
             'page_title' => 'ITCC SIWES COMPANY DIRECTORY',
         ], 'layouts/company_layout');
+    }
+
+    /**
+     * get - API to get all companies all companies 
+     * @Router: an instance of Router class
+     */
+    public static function all(Router $router)
+    {
+        header("Content-Type: application/json");
+        $companies = (new Company($router->dbs))->all();
+        echo json_encode($companies);
     }
 
 

@@ -12,8 +12,8 @@
 							<h4 class="card-title">You are logged in as <?php echo $_SESSION["name"].'('.$_SESSION['email'].')';?></h4>
 							
 								<div class="form-group m-0">
-									<a href= "/"><button type="submit" class="btn btn-primary btn-block" id = "proceed-to-mismatch" name = "go-to-home">
-										Continue using Budget
+									<a href= "/siwes/dlc/backdoor/companies"><button type="submit" class="btn btn-primary btn-block" id = "proceed-to-mismatch" name = "go-to-home">
+										View Company Directory
 									</button></a>
 								</div>
                                 <div class="mt-4 text-center">

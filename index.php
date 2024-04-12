@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 define ('SITE_ROOT', $_SERVER['DOCUMENT_ROOT'].'/siwes/dlc');
 define('MAX_FILE_SIZE', 800000);
 
-// session_start();
+session_start();
 // echo '<pre>';
 // var_dump ($_SERVER);
 // echo "</pre>"; exit;
@@ -39,6 +39,9 @@ $router->get('/siwes/dlc/preview', [DLCStudentController::class, 'preview']);
 $router->post('/siwes/dlc/register-it', [DLCStudentController::class, 'registerForIT']);
 
 $router->get('/siwes/dlc/companies', [CompanyController::class, 'index']);
+$router->get('/siwes/dlc/companies/all', [CompanyController::class, 'all']);
+$router->get('/siwes/dlc/backdoor/companies/all', [CompanyController::class, 'all']);
+
 
 
 

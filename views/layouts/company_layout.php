@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.css" />
   <link rel="stylesheet" href="/siwes/dlc/assets/styles/profile.css">
+  <link rel="stylesheet" href="/siwes/dlc/assets/styles/my-datatable.css">
+
 </head>
 
 <body>
@@ -31,11 +33,16 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" ></script>
   <script src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.js" ></script>
   <script src="/siwes/dlc/assets/js/dataTables.altEditor.free.js" ></script>
-  <script src="/siwes/dlc/assets/js/company.js" ></script>
+  <?php if (isset($_SESSION['user_id'])) { ?>
+  <script src="/siwes/dlc/assets/js/company/company.backdoor.js" ></script>
 
-  <script src="/siwes/dlc/assets/js/create.js"></script>
-  <script src="/siwes/dlc/assets/js/profile/create-profile.js" type="module"></script>
+  <?php } else {?>
+  <script src="/siwes/dlc/assets/js/company/company.client.js" ></script>
 
+  <?php }?>
+  <script src="/siwes/dlc/assets/js/company/company.js"></script>
+
+  
 </body>
 
 </html>

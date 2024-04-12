@@ -20,7 +20,7 @@ class Company extends Database
         public function __construct(Database $db, array $columns = [])
         {
                 $this->conn = $db->conn;
-                $this->table = 'siwes_company';
+                $this->table = 'company_directory';
                 
                 $this->id = new Field((int) ($columns['id'] ?? null));
                 $this->name = new Field($columns['name'] ?? null, ['isRequired', 'minLength:3', 'maxLength:128']);
