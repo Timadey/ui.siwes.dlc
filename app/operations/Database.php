@@ -111,7 +111,7 @@ class Database
             }; return NULL;
             
         } catch (\PDOException $err) {
-            echo $err->getMessage();
+            // echo $err->getMessage();
             throw new \Exception("Error Processing Request", 1);  
         }
     }
@@ -145,7 +145,7 @@ class Database
             return ($this->conn->lastInsertId());
         }
         catch (\PDOException $err) {
-            echo ($err->getMessage()); exit;
+            // echo ($err->getMessage()); exit;
             throw new \Exception("Error Processing Request", 1);  
         }
     }
