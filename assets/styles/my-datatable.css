@@ -1,4 +1,46 @@
 /* CSS to prevent search button overflow */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+* {
+  box-sizing: border-box;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100%;
+  font-family: "Poppins";
+}
+body .background {
+  background: url(../images/background-image.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  height: 100vh;
+  opacity: 0.3;
+  z-index: -2;
+}
+
+section {
+  margin: 0 auto;
+  width: 95%;
+}
+
+.details {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.details h1 {
+  font-size: 30px;
+  border-bottom: 2px solid;
+  margin-bottom: 40px;
+}
+
 .dataTables_wrapper .dataTables_filter {
     width: 100%;
     text-align: center;
