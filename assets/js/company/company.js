@@ -80,10 +80,10 @@ $(document).ready(function() {
       data: "company_address",
       title: "Company Address"
     },
-    {
-      data: "course_of_study",
-      title: "Course of Study"
-    },
+    // {
+    //   data: "course_of_study",
+    //   title: "Course of Study"
+    // },
     {
       data: "city_or_area",
       title: "City or Area"
