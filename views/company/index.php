@@ -10,22 +10,10 @@
   <div id="search-company" class="row pb-4 px-2">
     <form id="browse-companies" class="row gy-2 gx-3 align-items-center" method="post" action="companies">
       <div class="col-auto">
-        <label class="visually-hidden" for="autoSizingInputGroup">Faculty</label>
+        <label class="visually-hidden" for="autoSizingInputGroup">Course of Study</label>
         <div class="input-group">
-          <div class="input-group-text">Faculty</div>
-          <select id="faculty" required 
-            onchange="this.className=this.options[this.selectedIndex].className"
-            class="form-control" id="autoSizingInputGroup" placeholder="Faculty">
-                <!-- <option class="drop_down" value="">Select Faculty</option> -->
-                <!-- Add the following class to the option value (class="drop_down") -->
-            </select>
-        </div>
-      </div>
-      <div class="col-auto">
-        <label class="visually-hidden" for="autoSizingInputGroup">Department</label>
-        <div class="input-group">
-          <div class="input-group-text">Department</div>
-          <select id="department" name="course" required
+          <div class="input-group-text">Course of Study</div>
+          <select id="courses" name="course" required
             onchange="this.className=this.options[this.selectedIndex].className"
             class="form-control" id="autoSizingInputGroup">
                 <!-- <option value="">Select Department</option> -->
@@ -38,14 +26,14 @@
         <label class="visually-hidden" for="autoSizingInputGroup">State</label>
         <div class="input-group">
           <div class="input-group-text">State</div>
-          <select id="states" required 
+          <select id="states" name="state" required 
             onchange="this.className=this.options[this.selectedIndex].className"
             class="form-control" id="autoSizingInputGroup" placeholder="State">
             </select>
         </div>
       </div>
 
-      <div class="col-auto">
+      <!-- <div class="col-auto">
         <label class="visually-hidden" for="autoSizingInputGroup">City or Area</label>
         <div class="input-group">
           <div class="input-group-text">City or Area</div>
@@ -54,7 +42,7 @@
             class="form-control" id="autoSizingInputGroup" placeholder="City or Area">
             </select>
         </div>
-      </div>
+      </div> -->
 
 
       <div class="col-auto">

@@ -89,12 +89,12 @@ class Company extends Database
                 if ($lookup_with_value)
                 {
                         $where = [
-                                // "`state`" => ":state",
+                                "`state`" => ":state",
                                 "`city_or_area`" => ":city_or_area",
                                 "`course_of_study`" => ":course_of_study",
                         ];
                         $value = [
-                                // ":state" => Help::prepareLike($lookup_with_value['state']),
+                                ":state" => Help::prepareLike($lookup_with_value['state']),
                                 ":city_or_area" => Help::prepareLike($lookup_with_value['city_or_area']),
                                 ":course_of_study" => Help::prepareLike($lookup_with_value['course_of_study']),
                         ];

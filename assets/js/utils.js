@@ -66,36 +66,45 @@ export function handleFieldErrors(fields, errors, errorLabelSuffix = '_error'){
  * The child dropdown selct options are populated based on the selected option of parent
  * Array is of form [parent1:[child1, child2, child3], parent2:[child1, child2]...]
  */
-export function populateDropdownSelect(array, parentDropdownId, childDropdownId){
+export function populateDropdownSelect(array, parentDropdownId, childDropdownId, step=2){
     // Populate state dropdown options
     var parentDropdown = $(`#${parentDropdownId}`);
     parentDropdown.append($('<option>').text(`Select ${parentDropdownId}`).attr('value', ""));
-    Object.keys(array).forEach(function(elem) {
-        parentDropdown.append($('<option>').text(elem).attr('value', elem));
-    });
+    if (!childDropdownId || step == 1){
+        Object.values(array).forEach(function(elem) {
+            parentDropdown.append($('<option>').text(elem).attr('value', elem));
+        });
+    }else{
+        Object.keys(array).forEach(function(elem) {
+            parentDropdown.append($('<option>').text(elem).attr('value', elem));
+        });
+    }
 
     // Handle change event on faculty dropdown
-    parentDropdown.change(function() {
-        var selectedParent = $(this).val();
-        var childDropdown = $(`#${childDropdownId}`);
+    if (childDropdownId && step == 2){
 
-        // Clear existing options
-        childDropdown.empty();
-
-        // Add default option
-        childDropdown.append($('<option>').text(`Select ${childDropdownId}`).attr('value', ""));
-
-        // Populate department dropdown with departments of selected faculty
-        array[selectedParent].forEach(function(child) {
-            childDropdown.append($('<option>').text(child).attr('value', child));
+        parentDropdown.change(function() {
+            var selectedParent = $(this).val();
+            var childDropdown = $(`#${childDropdownId}`);
+    
+            // Clear existing options
+            childDropdown.empty();
+    
+            // Add default option
+            childDropdown.append($('<option>').text(`Select ${childDropdownId}`).attr('value', ""));
+    
+            // Populate department dropdown with departments of selected faculty
+            array[selectedParent].forEach(function(child) {
+                childDropdown.append($('<option>').text(child).attr('value', child));
+            });
         });
-    });
+    }
     
 }
 
 export function populateStateAndCities(state_id="states", cities_id="cities"){
     $.ajax({
-        type: "GET",
+        type: "POST",
         url:'companies/states',
         contentType: false,
         processData: false,
@@ -113,4 +122,22 @@ export function populateStateAndCities(state_id="states", cities_id="cities"){
 
 export function drawStateAndCites(states, state_id="states", cities_id="cities"){
     return populateDropdownSelect(states, state_id, cities_id);
+}
+
+export function populateCourseOfStudy(course_id="courses"){
+    $.ajax({
+        type: "POST",
+        url:'companies/courses',
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            response = JSON.parse(response);
+            populateDropdownSelect(response, course_id);
+        },
+        error: function(xhr, status, error){
+            console.log(xhr, xhr.responseText);
+            fireAlert('error','Error getting course of study','We couldn\'t load the list of courses of study');
+        }
+    });
+
 }

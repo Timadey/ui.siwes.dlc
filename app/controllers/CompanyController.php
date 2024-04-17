@@ -23,6 +23,34 @@ class CompanyController
     }
 
     /**
+     * courses - Returns all courses
+     * @Router: an instance of Router class
+     */
+    public static function courses(Router $router)
+    {
+        // Get state and area, 
+        $query = "SELECT DISTINCT `course_of_study` FROM `company_directory`;";
+        try {
+            $q = ($router->dbs->conn)->prepare($query);
+            $q->execute();
+            $data = $q->fetchall(\PDO::FETCH_ASSOC);
+            $courses = [];
+            if (is_array($data) && !empty($data)){
+                foreach ($data as $key => $value) {
+                    $value = explode(",", $value["course_of_study"]);
+                    $courses = array_merge($courses, $value);
+                }
+                echo json_encode(array_unique($courses)); exit;
+            }; return NULL;
+            
+        } catch (\PDOException $err) {
+            // echo $err->getMessage();
+            throw new \Exception("Error Processing Request", 1);  
+        }
+        
+    }
+
+    /**
      * states - Returns all states and their respective cities or area
      * @Router: an instance of Router class
      */
@@ -66,11 +94,11 @@ class CompanyController
             $p = $_POST;
             $query = [
                 "city_or_area" => $p["city"] ?? "",
-                // "state" => $p["state"] ?? "",
+                "state" => $p["state"] ?? "",
                 "course_of_study" => $p["course"],
             ];
 
-            if(!$query["course_of_study"] || !$query["city_or_area"]){
+            if(!$query["course_of_study"]){
                 $error = "Please fill all required fields";
                 http_response_code(400);
                 echo json_encode($error);

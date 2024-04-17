@@ -1,10 +1,11 @@
-import { drawStateAndCites, fireAlert, populateDropdownSelect, populateStateAndCities } from "../utils.js";
+import { drawStateAndCites, fireAlert, populateCourseOfStudy, populateDropdownSelect, populateStateAndCities } from "../utils.js";
 import { faculties } from "../config.js";
 
 $(document).ready(function() {
   $("#company-datatable").hide();
 
-  populateDropdownSelect(faculties, 'faculty', 'department');
+  // populateDropdownSelect(faculties, 'faculty', 'department');
+  populateCourseOfStudy();
   populateStateAndCities();
 
 
