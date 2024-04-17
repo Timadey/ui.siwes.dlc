@@ -70,7 +70,7 @@ class CompanyController
                 "course_of_study" => $p["course"],
             ];
 
-            if(!$query["city_or_area"] || !$query["course_of_study"]){
+            if(!$query["course_of_study"] || !$query["city_or_area"]){
                 $error = "Please fill all required fields";
                 http_response_code(400);
                 echo json_encode($error);

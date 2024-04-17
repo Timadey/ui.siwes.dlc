@@ -69,7 +69,7 @@ export function handleFieldErrors(fields, errors, errorLabelSuffix = '_error'){
 export function populateDropdownSelect(array, parentDropdownId, childDropdownId){
     // Populate state dropdown options
     var parentDropdown = $(`#${parentDropdownId}`);
-    parentDropdown.append($('<option>').text(`Select ${parentDropdownId}`));
+    parentDropdown.append($('<option>').text(`Select ${parentDropdownId}`).attr('value', ""));
     Object.keys(array).forEach(function(elem) {
         parentDropdown.append($('<option>').text(elem).attr('value', elem));
     });
@@ -83,7 +83,7 @@ export function populateDropdownSelect(array, parentDropdownId, childDropdownId)
         childDropdown.empty();
 
         // Add default option
-        childDropdown.append($('<option>').text(`Select ${childDropdownId}`));
+        childDropdown.append($('<option>').text(`Select ${childDropdownId}`).attr('value', ""));
 
         // Populate department dropdown with departments of selected faculty
         array[selectedParent].forEach(function(child) {
