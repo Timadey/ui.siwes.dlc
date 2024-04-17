@@ -8,6 +8,11 @@ $(document).ready(function() {
   populateCourseOfStudy();
   populateStateAndCities();
 
+  $("#courses").change(function (e) { 
+    e.preventDefault();
+    $("#states").prop('selectedIndex', 0);
+  });
+
 
   // When submit button is clicked
   $("#submit-browse").click(function (e) {
