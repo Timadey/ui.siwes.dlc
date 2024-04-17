@@ -39,8 +39,10 @@ $router->get('/siwes/dlc/preview', [DLCStudentController::class, 'preview']);
 $router->post('/siwes/dlc/register-it', [DLCStudentController::class, 'registerForIT']);
 
 $router->get('/siwes/dlc/companies', [CompanyController::class, 'index']);
-$router->get('/siwes/dlc/companies/all', [CompanyController::class, 'all']);
-$router->get('/siwes/dlc/backdoor/companies/all', [CompanyController::class, 'all']);
+$router->get('/siwes/dlc/companies/states', [CompanyController::class, 'states']);
+$router->post('/siwes/dlc/companies/search', [CompanyController::class, 'filter']);
+// $router->get('/siwes/dlc/companies/all', [CompanyController::class, 'all']);
+// $router->get('/siwes/dlc/backdoor/companies/all', [CompanyController::class, 'all']);
 
 
 

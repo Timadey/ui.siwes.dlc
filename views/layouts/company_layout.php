@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php echo $page_title ?? "ITCC - DLC"; ?></title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" />
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" /> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.css" />
@@ -30,7 +31,8 @@
   <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js" ></script>
   <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.js" ></script>
   <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.js" ></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" ></script>
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" ></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.js" ></script>
   <script src="/siwes/dlc/assets/js/dataTables.altEditor.free.js" ></script>
   <?php if (isset($_SESSION['user_id'])) { ?>
@@ -40,7 +42,7 @@
   <script src="/siwes/dlc/assets/js/company/company.client.js" ></script>
 
   <?php }?>
-  <script src="/siwes/dlc/assets/js/company/company.js"></script>
+  <script src="/siwes/dlc/assets/js/company/company.js" type="module"></script>
 
   
 </body>

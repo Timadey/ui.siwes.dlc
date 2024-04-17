@@ -61,3 +61,56 @@ export function handleFieldErrors(fields, errors, errorLabelSuffix = '_error'){
         };
     }
 }
+
+/** Populates a parent and child dropdown.
+ * The child dropdown selct options are populated based on the selected option of parent
+ * Array is of form [parent1:[child1, child2, child3], parent2:[child1, child2]...]
+ */
+export function populateDropdownSelect(array, parentDropdownId, childDropdownId){
+    // Populate state dropdown options
+    var parentDropdown = $(`#${parentDropdownId}`);
+    parentDropdown.append($('<option>').text(`Select ${parentDropdownId}`));
+    Object.keys(array).forEach(function(elem) {
+        parentDropdown.append($('<option>').text(elem).attr('value', elem));
+    });
+
+    // Handle change event on faculty dropdown
+    parentDropdown.change(function() {
+        var selectedParent = $(this).val();
+        var childDropdown = $(`#${childDropdownId}`);
+
+        // Clear existing options
+        childDropdown.empty();
+
+        // Add default option
+        childDropdown.append($('<option>').text(`Select ${childDropdownId}`));
+
+        // Populate department dropdown with departments of selected faculty
+        array[selectedParent].forEach(function(child) {
+            childDropdown.append($('<option>').text(child).attr('value', child));
+        });
+    });
+    
+}
+
+export function populateStateAndCities(state_id="states", cities_id="cities"){
+    $.ajax({
+        type: "GET",
+        url:'companies/states',
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            response = JSON.parse(response);
+            drawStateAndCites(response, state_id, cities_id);
+        },
+        error: function(xhr, status, error){
+            console.log(xhr, xhr.responseText);
+            fireAlert('error','Error getting cities','We couldn\'t load the list of cities');
+        }
+    });
+
+}
+
+export function drawStateAndCites(states, state_id="states", cities_id="cities"){
+    return populateDropdownSelect(states, state_id, cities_id);
+}

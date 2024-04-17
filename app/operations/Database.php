@@ -3,6 +3,7 @@ namespace app\operations;
 
 include_once __DIR__."../../../config/config.php";
 
+use app\helpers\Help;
 use PDO;
 /**
  * Database - Handles repetitive actions done on database
@@ -70,7 +71,7 @@ class Database
      */
     public function dbGetData(array $column = NULL, string $from, array $join = NULL,
      array $where = NULL, array $value = NULL, string $order = null,
-    array $limit = null)
+    array $limit = null, bool $like = false)
     {
         if ($this->conn == NULL){
             throw New \Exception("Database connection not found");
@@ -92,8 +93,9 @@ class Database
         if ($where != NULL) {
             $query .= " WHERE ";
             $where_list = array();
+            
             foreach ($where as $col => $ph) {
-                $where_list[] = $col.' = '.$ph;
+                $where_list[] = $like ? $col.' LIKE '.$ph : $col.' = '.$ph;
             }
             $where = implode(' AND ', $where_list);
             $query .= $where;

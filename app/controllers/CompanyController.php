@@ -16,9 +16,72 @@ class CompanyController
      */
     public static function index(Router $router)
     {
+        // Get state and area, 
         return $router->renderView('company/index', [
             'page_title' => 'ITCC SIWES COMPANY DIRECTORY',
         ], 'layouts/company_layout');
+    }
+
+    /**
+     * states - Returns all states and their respective cities or area
+     * @Router: an instance of Router class
+     */
+    public static function states(Router $router)
+    {
+        // Get state and area, 
+        $query = "SELECT state_name, GROUP_CONCAT(city_name SEPARATOR ', ') AS cities 
+                    FROM state 
+                    LEFT JOIN city_or_area ON state.id = city_or_area.state_id 
+                    GROUP BY state.state_name;";
+        try {
+            $q = ($router->dbs->conn)->prepare($query);
+            $q->execute();
+            $data = $q->fetchall(\PDO::FETCH_ASSOC);
+            $states = [];
+            if (is_array($data) && !empty($data)){
+                foreach ($data as $key => $value) {
+                    $cities = $value["cities"];
+                    $state_name = $value["state_name"];
+                    $states[$state_name] = explode(',', $cities);
+                }
+                echo json_encode($states); exit;
+            }; return NULL;
+            
+        } catch (\PDOException $err) {
+            // echo $err->getMessage();
+            throw new \Exception("Error Processing Request", 1);  
+        }
+        
+    }
+
+    /**
+     * filter - View to filter companies by post data
+     * @Router: an instance of Router class
+     */
+    public static function filter(Router $router)
+    {
+        if ($_POST){
+            // Select company based on course_of_study, city_or_area
+            header("Content-Type: application/json");
+            $p = $_POST;
+            $query = [
+                "city_or_area" => $p["city"] ?? "",
+                // "state" => $p["state"] ?? "",
+                "course_of_study" => $p["course"],
+            ];
+
+            if(!$query["city_or_area"] || !$query["course_of_study"]){
+                $error = "Please fill all required fields";
+                http_response_code(400);
+                echo json_encode($error);
+                exit;
+
+            }
+            
+            $companies = (new Company($router->dbs))->filter($query);
+            http_response_code(200);
+            echo json_encode($companies);
+        }
     }
 
     /**

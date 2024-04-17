@@ -6,6 +6,14 @@ class Help
         /**
          * randomCharacters - Returns a random string
          */
+        public static function prepareLike($value) {
+                // $v = str_replace("`", "%", $value);
+                return "%$value%";
+        }
+    
+        /**
+         * randomCharacters - Returns a random string
+         */
         public static function randomCharacters($length = 32, $numeric = false) {
     
                 $random_string = "";

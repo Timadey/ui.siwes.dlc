@@ -84,6 +84,27 @@ class Company extends Database
                 return $data[0] ?? null;
         }
 
+        public function filter($lookup_with_value) // Move to abstract model
+        {
+                if ($lookup_with_value)
+                {
+                        $where = [
+                                // "`state`" => ":state",
+                                "`city_or_area`" => ":city_or_area",
+                                "`course_of_study`" => ":course_of_study",
+                        ];
+                        $value = [
+                                // ":state" => Help::prepareLike($lookup_with_value['state']),
+                                ":city_or_area" => Help::prepareLike($lookup_with_value['city_or_area']),
+                                ":course_of_study" => Help::prepareLike($lookup_with_value['course_of_study']),
+                        ];
+                        
+                        $data = $this->dbGetData(null, "`$this->table`", null, $where, $value, null, null, true);
+
+                        return $data ?? array();
+                }
+        }
+
         public function all() {
             $data = $this->dbGetData(null, "`$this->table`", null, null, null, null);
             return $data;
