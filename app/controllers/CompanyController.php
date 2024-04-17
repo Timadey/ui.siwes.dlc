@@ -93,7 +93,7 @@ class CompanyController
     public static function course_states(Router $router)
     {
         if ($_POST && isset($_POST["course"]) && $_POST["course"]) {
-            $course = '%' . Help::clean($_POST["course"]) . '%';
+            $course = '%' . str_replace("&amp;", "&", Help::clean($_POST["course"])) . '%';
             $query = "SELECT DISTINCT `state`
                       FROM company_directory 
                       WHERE course_of_study LIKE :course";
@@ -126,7 +126,7 @@ class CompanyController
     public static function course_states_city(Router $router)
     {
         if ($_POST && isset($_POST["course"]) && isset($_POST["state"])) {
-            $course = '%' . Help::clean($_POST["course"]) . '%';
+            $course = '%' . str_replace("&amp;", "&", Help::clean($_POST["course"])) . '%';
             $state = Help::clean($_POST["state"]);
         
             $query = "SELECT DISTINCT `city_or_area`
