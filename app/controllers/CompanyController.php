@@ -3,7 +3,7 @@ namespace app\controllers;
 
 header('Access-Control-Allow-Origin: *');
 
-
+use app\helpers\Help;
 Use app\router\Router;
 use app\models\Company;
 
@@ -58,7 +58,7 @@ class CompanyController
      * states - Returns all states and their respective cities or area
      * @Router: an instance of Router class
      */
-    public static function states(Router $router)
+    public static function all_states(Router $router)
     {
         // Get state and area, 
         $query = "SELECT state_name, GROUP_CONCAT(city_name SEPARATOR ', ') AS cities 
@@ -87,6 +87,77 @@ class CompanyController
     }
 
     /**
+     * states - Returns all states and their respective cities or area
+     * @Router: an instance of Router class
+     */
+    public static function course_states(Router $router)
+    {
+        if ($_POST && isset($_POST["course"]) && $_POST["course"]) {
+            $course = '%' . Help::clean($_POST["course"]) . '%';
+            $query = "SELECT DISTINCT `state`
+                      FROM company_directory 
+                      WHERE course_of_study LIKE :course";
+        
+            try {
+                $q = $router->dbs->conn->prepare($query);
+                $q->bindParam(':course', $course, \PDO::PARAM_STR);
+                $q->execute();
+                $data = $q->fetchAll(\PDO::FETCH_ASSOC);
+                
+                $states = [];
+                foreach ($data as $row) {
+                    $states[] = $row["state"];
+                }
+                
+                echo json_encode($states);
+            } catch (\PDOException $err) {
+                throw new \Exception("Error Processing Request", 1);  
+            }
+        }
+        
+        
+        
+    }
+
+    /**
+     * course_states_city - Returns all states and their respective cities or area
+     * @Router: an instance of Router class
+     */
+    public static function course_states_city(Router $router)
+    {
+        if ($_POST && isset($_POST["course"]) && isset($_POST["state"])) {
+            $course = '%' . Help::clean($_POST["course"]) . '%';
+            $state = Help::clean($_POST["state"]);
+        
+            $query = "SELECT DISTINCT `city_or_area`
+                      FROM company_directory 
+                      WHERE course_of_study LIKE :course
+                      AND `state` = :state";
+        
+            try {
+                $q = $router->dbs->conn->prepare($query);
+                $q->bindParam(':course', $course, \PDO::PARAM_STR);
+                $q->bindParam(':state', $state, \PDO::PARAM_STR);
+                $q->execute();
+                $data = $q->fetchAll(\PDO::FETCH_ASSOC);
+                
+                $cities = [];
+                foreach ($data as $row) {
+                    $cities[] = $row["city_or_area"];
+                }
+                
+                echo json_encode($cities);
+            } catch (\PDOException $err) {
+                // echo $err->getMessage();
+                throw new \Exception("Error Processing Request", 1);  
+            }
+        }
+        
+        
+        
+    }
+
+    /**
      * filter - View to filter companies by post data
      * @Router: an instance of Router class
      */
@@ -103,7 +174,7 @@ class CompanyController
             ];
 
             if(!$query["course_of_study"]){
-                $error = "Please fill all required fields";
+                $error = "Please select course of study";
                 http_response_code(400);
                 echo json_encode($error);
                 exit;

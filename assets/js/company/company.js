@@ -1,16 +1,22 @@
-import { drawStateAndCites, fireAlert, populateCourseOfStudy, populateDropdownSelect, populateStateAndCities } from "../utils.js";
-import { faculties } from "../config.js";
+import { fireAlert, populateCity, populateCourseOfStudy, populateState } from "../utils.js";
 
 $(document).ready(function() {
   $("#company-datatable").hide();
 
-  // populateDropdownSelect(faculties, 'faculty', 'department');
   populateCourseOfStudy();
-  populateStateAndCities();
 
   $("#courses").change(function (e) { 
     e.preventDefault();
-    $("#states").prop('selectedIndex', 0);
+    $("#states").empty();
+    $("#cities").empty();
+    populateState($(this).val());
+  });
+
+  $("#states").change(function (e) { 
+    e.preventDefault();
+    $("#cities").empty();
+    populateCity($("#courses").val(), $(this).val());
+    
   });
 
 

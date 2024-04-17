@@ -102,15 +102,31 @@ export function populateDropdownSelect(array, parentDropdownId, childDropdownId,
     
 }
 
-export function populateStateAndCities(state_id="states", cities_id="cities"){
+export function populateState(course, state_id="states"){
     $.ajax({
         type: "POST",
-        url:'companies/states',
-        contentType: false,
-        processData: false,
+        data: {course},
+        url: 'companies/states',
         success: function (response) {
             response = JSON.parse(response);
-            drawStateAndCites(response, state_id, cities_id);
+            drawState(response, state_id);
+        },
+        error: function(xhr, status, error){
+            console.log(xhr, xhr.responseText);
+            fireAlert('error','Error getting cities','We couldn\'t load the list of states');
+        }
+    });
+
+}
+
+export function populateCity(course, state, cities_id="cities"){
+    $.ajax({
+        type: "POST",
+        data: {course, state},
+        url: 'companies/cities',
+        success: function (response) {
+            response = JSON.parse(response);
+            populateDropdownSelect(response, cities_id);
         },
         error: function(xhr, status, error){
             console.log(xhr, xhr.responseText);
@@ -120,8 +136,8 @@ export function populateStateAndCities(state_id="states", cities_id="cities"){
 
 }
 
-export function drawStateAndCites(states, state_id="states", cities_id="cities"){
-    return populateDropdownSelect(states, state_id, cities_id);
+export function drawState(states, state_id="states"){
+    return populateDropdownSelect(states, state_id);
 }
 
 export function populateCourseOfStudy(course_id="courses"){

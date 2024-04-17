@@ -23,9 +23,9 @@
         </div>
       </div>
       <div class="col-auto">
-        <label class="visually-hidden" for="autoSizingInputGroup">State</label>
+        <label class="visually-hidden" for="autoSizingInputGroup">Preferred State</label>
         <div class="input-group">
-          <div class="input-group-text">State</div>
+          <div class="input-group-text">Preferred State</div>
           <select id="states" name="state" required 
             onchange="this.className=this.options[this.selectedIndex].className"
             class="form-control" id="autoSizingInputGroup" placeholder="State">
@@ -33,16 +33,16 @@
         </div>
       </div>
 
-      <!-- <div class="col-auto">
-        <label class="visually-hidden" for="autoSizingInputGroup">City or Area</label>
+      <div class="col-auto">
+        <label class="visually-hidden" for="autoSizingInputGroup">Preferred City/Area</label>
         <div class="input-group">
-          <div class="input-group-text">City or Area</div>
+          <div class="input-group-text">Preferred City/Area</div>
           <select id="cities" name="city" required 
             onchange="this.className=this.options[this.selectedIndex].className"
             class="form-control" id="autoSizingInputGroup" placeholder="City or Area">
             </select>
         </div>
-      </div> -->
+      </div>
 
 
       <div class="col-auto">
