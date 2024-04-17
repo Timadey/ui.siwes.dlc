@@ -41,7 +41,9 @@ class CompanyController
                 	$value = array_map("trim", $value);
                     $courses = array_merge($courses, $value);
                 }
-                echo json_encode(array_unique($courses)); exit;
+                $courses = array_unique($courses);
+                sort($courses);
+                echo json_encode($courses); exit;
             }; return NULL;
             
         } catch (\PDOException $err) {
