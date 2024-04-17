@@ -43,6 +43,7 @@ class CompanyController
                 }
                 $courses = array_unique($courses);
                 sort($courses);
+                $courses = array_filter($courses);
                 echo json_encode($courses); exit;
             }; return NULL;
             
