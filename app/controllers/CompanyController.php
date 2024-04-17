@@ -38,6 +38,7 @@ class CompanyController
             if (is_array($data) && !empty($data)){
                 foreach ($data as $key => $value) {
                     $value = explode(",", $value["course_of_study"]);
+                	$value = array_map("trim", $value);
                     $courses = array_merge($courses, $value);
                 }
                 echo json_encode(array_unique($courses)); exit;
