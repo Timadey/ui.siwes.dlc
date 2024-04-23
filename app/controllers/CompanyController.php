@@ -238,6 +238,47 @@ class CompanyController
         
 
     }
+
+     /**
+     * update - View to update a new company
+     * @Router: an instance of Router class
+     */
+    public static function update(Router $router)
+    {
+        if($_POST){
+            header("Content-Type: application/json");
+            $company = new Company($router->dbs, $_POST);
+            // print_r($_POST); exit;
+            unset($_POST);
+            
+            $errorBag = $company->save(true);
+            
+            if ($errorBag->errors)
+            {
+                http_response_code(400);
+
+                echo json_encode($errorBag->errors);
+                exit;
+            }
+            else if ($errorBag->last_inserted)
+            {
+                http_response_code(200);
+                echo json_encode($errorBag->inserted_obj);
+                exit;
+            }
+            else
+            {
+                http_response_code(500);
+                echo json_encode($errorBag);
+                exit;
+            }
+
+        }
+        header("Location: /siwes/dlc");
+
+        
+
+    }
 }
 
 ?>

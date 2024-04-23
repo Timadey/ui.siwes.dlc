@@ -170,14 +170,16 @@ class Database
         $query .=$set_list." WHERE ";
         $where_list = implode(' AND ', $where);
         $query .=$where_list;
-        //echo $query;
-        //exit;
+        // echo $query;
+        // exit;
         try{
             $q = $this->conn->prepare($query);
             $q->execute($values);
+            // print_r($result); exit;
             return (true);
         }
         catch (\PDOException $err) {
+            // echo ($err->getMessage()); exit;
             return (false); 
         }
 

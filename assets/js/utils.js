@@ -62,6 +62,86 @@ export function handleFieldErrors(fields, errors, errorLabelSuffix = '_error'){
     }
 }
 
+
+/**
+ * Submit a form via AJAX with error text beneath input fields.
+ * 
+ * @param {Object} options - Options for configuring the form submission.
+ * @param {string} options.url - The URL to which the form data will be submitted.
+ * @param {string} options.formId - The ID of the form element to be submitted.
+ * @param {string} [options.submitBtnId="submit-btn"] - The ID of the submit button.
+ * @param {string} [options.submitBtnProcessingText="Processing"] - The text to display on the submit button during processing.
+ * @param {string} [options.errorClass="error"] - The class name of the elements containing error text.
+ * @param {Function} [options.success=null] - Callback function to be executed on successful form submission.
+ * @param {Function} [options.error=null] - Callback function to be executed if an error occurs during form submission.
+ * 
+ * @example
+ * submitFormFn({
+ *   url: "submit-url",
+ *   formId: "form-id",
+ *   success: function(response) {
+ *     console.log("Success:", response);
+ *   },
+ *   error: function(xhr, status, error) {
+ *     console.log("Error:", error);
+ *   }
+ * });
+ */
+  
+export function submitFormFn(options) {
+
+    const defaults = {
+        url : "",
+        formId : "",
+        submitBtnId : "submit-btn",
+        submitBtnProcessingText : "Processing",
+        errorClass : "error",
+        success : null,
+        error : null,
+    };
+
+    const settings = {...defaults, ...options};
+
+    $(`#${settings.submitBtnId}`).click(function (e) {
+        e.preventDefault();
+        // Remove previous error texts
+        $(`.${settings.errorClass}`).text("");
+        $(`.${settings.errorClass}`).css('display', 'none');
+
+        // Disable the button and show processing text
+        const btnText = $(this).text();
+        $(this).prop('disabled', true).text(settings.submitBtnProcessingText);
+
+        const form = $(`#${settings.formId}`).get()[0]
+        const formData = new FormData(form);
+
+        // Send Ajax request to create student profile
+        return $.ajax({
+            type: "POST",
+            url: settings.url,
+            // headers: {
+            //     "Authorization": `Token ${getAuthToken()}`,
+            // },
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $(`#${settings.submitBtnId}`).prop('disabled', false).text(btnText);
+                // console.log(response);
+                if (typeof settings.success == 'function'){
+                    settings.success(response);
+                };
+            },
+            error: function (xhr, status, error) {
+                $(`#${settings.submitBtnId}`).prop('disabled', false).text(btnText);
+                if (typeof settings.error == 'function'){
+                    settings.error(xhr, status, error);
+                }
+            }
+        })
+    })
+}
+
 /** Populates a parent and child dropdown.
  * The child dropdown selct options are populated based on the selected option of parent
  * Array is of form [parent1:[child1, child2, child3], parent2:[child1, child2]...]

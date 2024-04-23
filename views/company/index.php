@@ -48,20 +48,79 @@
       <div class="col-auto">
         <button type="submit" id="submit-browse" class="btn btn-primary">Browse</button>
       </div>
+      <?php if (isset($_SESSION['user_id'])) { ?>
+        <div class="col-auto">
+          <button type="submit" id="get-all-companies" class="btn btn-primary">Get all companies</button>
+        </div>
+      <?php } ?>
     </form>
   </div>
     <div id="company-datatable" class="card text-center">
       <div class="card-header">
         <h5 >Industrial Training Coordinating Centre, Univerisity of Ibadan</h5>
       </div>
-        <div class="card-body">
+      <div class="card-body">
         <div class="table-responsive">
-                <div class="position-relative">
-                    <table class="dataTable table table-striped" id="companies">
-                    </table>
-                </div>
-            </div>
+          <div class="position-relative">
+              <table class="dataTable table table-striped" id="companies">
+              </table>
+          </div>
         </div>
+      </div>
+      <?php if (isset($_SESSION['user_id'])) { ?>
+        <div class="modal fade" id="companyModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addModalLabel">Company</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="companyModalForm">
+                    <div class="form-floating mb-3" hidden>
+                      <input type="text" class="form-control" id="companyId" name="id" placeholder="0">
+                      <label for="companyName" class="form-label">Company ID</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="companyName" name="company_name" placeholder="John & Doe Co.">
+                      <label for="companyName" class="form-label">Company Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="companyAddress" name="company_address" placeholder="U.I">
+                      <label for="companyAddress" class="form-label">Company Address</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="courseOfStudy" name="course_of_study" placeholder="Industrial Training">
+                      <label for="courseOfStudy" class="form-label">Course of Study</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="cityOrArea" name="city_or_area" placeholder="Ibadan">
+                      <label for="cityOrArea" class="form-label">City or Area</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="state" name="state" placeholder="Oyo">
+                      <label for="state" class="form-label">State</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="email" class="form-control" id="email" name="email" placeholder="itcc@ui.edu.ng">
+                      <label for="email" class="form-label">Email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="phone" name="phone" placeholder="08012345678">
+                      <label for="phone" class="form-label">Phone</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="website" name="website" placeholder="itcc.ui.edu.ng">
+                      <label for="website" class="form-label">Website</label>
+                    </div>
+                    <button type="submit" id="submitCompany" class="btn btn-primary">Save Company</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <?php } ?>
     </div>
 
 </section>

@@ -58,6 +58,15 @@ $router->get('/siwes/dlc/backdoor/logout', [AuthController::class, 'logout']);
 
 $authMiddlewareRequired = [
     $router->get('/siwes/dlc/backdoor/companies', [CompanyController::class, 'index']),
+    $router->post('/siwes/dlc/backdoor/companies/courses', [CompanyController::class, 'courses']),
+    $router->post('/siwes/dlc/backdoor/companies/states', [CompanyController::class, 'course_states']),
+    $router->post('/siwes/dlc/backdoor/companies/cities', [CompanyController::class, 'course_states_city']),
+    $router->post('/siwes/dlc/backdoor/companies/search', [CompanyController::class, 'filter']),
+    $router->post('/siwes/dlc/backdoor/companies/all', [CompanyController::class, 'all']),
+    $router->post('/siwes/dlc/backdoor/companies/add', [CompanyController::class, 'store'],
+    $router->post('/siwes/dlc/backdoor/companies/edit', [CompanyController::class, 'update']),
+),
+
 ];
 
 if (in_array($_SERVER['REQUEST_URI'], $authMiddlewareRequired))

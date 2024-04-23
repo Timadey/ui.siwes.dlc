@@ -19,38 +19,51 @@ class FieldValidator extends Validator
         }
 
         public static function minLength($value, ...$min){
-            $val = "$value";
-            $m = (int) $min[0][1];
-            if (strlen($val) < $m){
-                return "This field should not be less than $m characters long";
-            }
+                if ($value){
+                        $val = "$value";
+                        $m = (int) $min[0][1];
+                        if (strlen($val) < $m){
+                            return "This field should not be less than $m characters long";
+                        }
+                }
         }
 
         public static function maxLength($value, ...$max){
-                $val = "$value";
-                $m = (int) $max[0][1];
-                if (strlen($val) > $m){
-                    return "This field can only be $m characters long";
+                if ($value){
+
+                        $val = "$value";
+                        $m = (int) $max[0][1];
+                        if (strlen($val) > $m){
+                        return "This field can only be $m characters long";
+                        }
                 }
-            }
+        }
 
         public static function validPhone($value, ...$kwargs){
-                if (!preg_match('/^(?:080|081|090|091|070)(?:\d{8})$/', $value)){
-                        return "Phone number must be of format 08012345678";
+                if ($value){
+                        if (!preg_match('/^(?:080|081|090|091|070)(?:\d{8})$/', $value)){
+                                return "Phone number must be of format 08012345678";
+                        }
                 }
 
         }
 
         public static function validEmail($value, ...$kwargs){
-                if (filter_var($value, FILTER_VALIDATE_EMAIL) == false){
-                        return "Please use a valid email";
+                if ($value){
+
+                        if (filter_var($value, FILTER_VALIDATE_EMAIL) == false){
+                                return "Please use a valid email";
+                        }
                 }
 
         }
 
         public static function validDate($value, ...$kwargs){
-                if (strtotime($value) == false){
-                        return "Date format is not correct";
+                if ($value){
+
+                        if (strtotime($value) == false){
+                                return "Date format is not correct";
+                        }
                 }
 
         }

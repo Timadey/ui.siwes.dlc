@@ -10,10 +10,14 @@ class Company extends Database
         public string $table;
 
         public Field $id;
-        public Field $name;
-        public Field $address;
-        public Field $specialization;
-        public Field $employer;
+        public Field $company_name;
+        public Field $company_address;
+        public Field $course_of_study;
+        public Field $city_or_area;
+        public Field $state;
+        public Field $email;
+        public Field $website;
+        public Field $phone;
         public int $date;
 
 
@@ -23,10 +27,15 @@ class Company extends Database
                 $this->table = 'company_directory';
                 
                 $this->id = new Field((int) ($columns['id'] ?? null));
-                $this->name = new Field($columns['name'] ?? null, ['isRequired', 'minLength:3', 'maxLength:128']);
-                $this->address = new Field($columns['address'] ?? null, ['isRequired', 'minLength:3', 'maxLength:256']);
-                $this->specialization = new Field($columns['specialization'] ?? null, ['isRequired']);
-                $this->employer = new Field((int) ($columns['employer'] ?? null), ['isRequired', 'minLength:3', 'maxLength:128']);
+                $this->company_name = new Field($columns['company_name'] ?? null, ['isRequired', 'minLength:3', 'maxLength:128']);
+                $this->company_address = new Field($columns['company_address'] ?? null, ['isRequired', 'minLength:3', 'maxLength:256']);
+                $this->course_of_study = new Field($columns['course_of_study'] ?? null, ['isRequired']);
+                $this->city_or_area = new Field(($columns['city_or_area'] ?? null), ['isRequired', 'minLength:3', 'maxLength:128']);
+                $this->state = new Field(($columns['state'] ?? null), ['isRequired', 'minLength:3', 'maxLength:128']);
+                $this->email = new Field(($columns['email'] ?? null), ['validEmail']);
+                $this->website = new Field(($columns['website'] ?? null), ['minLength:3', 'maxLength:128']);
+                $this->phone = new Field(($columns['phone'] ?? null), ['validPhone']);
+
                 $this->date = time();
 
                 parent::__construct();
@@ -110,7 +119,7 @@ class Company extends Database
             return $data;
         }
 
-        public function save()
+        public function save($update=false)
         {
                 // Run validation logic
                 $saved_obj = (object) [
@@ -122,19 +131,43 @@ class Company extends Database
                 {
                         $saved_obj->errors = $error;
                         return $saved_obj;
+                };
+                if ($update == false){
+
+                        $last_inserted = $this->insertData("`$this->table`", [
+                            '`company_name`', '`company_address`', '`course_of_study`', '`city_or_area`', '`state`', '`email`',
+                            '`website`', '`phone`'
+                            
+                        ], [ // This insertData implementation is not efficient, needs refactoring and optimization - Timothy
+                                ':company_name' => $this->company_name->value,
+                                ':address' => $this->company_address->value,
+                                ':course_of_study' => $this->course_of_study->value,
+                                ':city_or_area' => $this->city_or_area->value,
+                                ':state' => $this->state->value,
+                                ':email' => $this->email->value,
+                                ':website' => $this->website->value,
+                                ':phone' => $this->phone->value,
+        
+                        ]);
+                }else{
+                        $last_inserted = $this->updateData("`$this->table`", [
+                                '`company_name`=:company_name', '`company_address`=:address', '`course_of_study`=:course_of_study',
+                                '`city_or_area`=:city_or_area', '`state`=:state', '`email`=:email', '`website`=:website', '`phone`=:phone',
+                        ], [
+                                '`id`=:id'
+                        ], [ // This insertData implementation is not efficient, needs refactoring and optimization - Timothy
+                                ':id' => $this->id->value,
+                                ':company_name' => $this->company_name->value,
+                                ':address' => $this->company_address->value,
+                                ':course_of_study' => $this->course_of_study->value,
+                                ':city_or_area' => $this->city_or_area->value,
+                                ':state' => $this->state->value,
+                                ':email' => $this->email->value,
+                                ':website' => $this->website->value,
+                                ':phone' => $this->phone->value,
+            
+                        ]);   
                 }
-
-                $last_inserted = $this->insertData("`$this->table`", [
-                    '`id`', '`name`', '`address`', '`specialization`', '`employer`', '`date`'
-                    
-                ], [ // This insertData implementation is not efficient, needs refactoring and optimization - Timothy
-                        ':name' => $this->name,
-                        ':address' => $this->address->value,
-                        ':specialization' => $this->specialization->value,
-                        ':employer' => $this->employer->value,
-                        ':date' => $this->date,
-
-                ]);
                 
                 if ($last_inserted===false) 
                 {
@@ -155,7 +188,7 @@ class Company extends Database
             // For each field of this object
             $thisObj = [];
             $attrs = get_object_vars($this);
-            unset($attrs["conn"]);
+            unset($attrs["conn"], $attrs["table"]);
             foreach ($attrs as $attr => $field) {
                 $thisObj[$attr] = $field->value ?? $field;
             }
