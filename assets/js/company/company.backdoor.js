@@ -4,7 +4,7 @@ $(document).ready(function () {
   var tableColumns = [{
       data: "id",
       title: "Id",
-      type: "readonly",
+      // type: "readonly",
       visible: false
     },
     {
@@ -211,6 +211,7 @@ $(document).ready(function () {
 
     // populate city or area
     populateCity("", $("#stateInModal").val(), "cityOrArea");
+    $("#cityOrArea").val(rowData['city_or_area']);
 
     
   }
@@ -222,7 +223,7 @@ $(document).ready(function () {
       $('#addModalLabel').text('Edit company');
       $('#companyModal').modal('show');
       $("#submitCompany").text("Edit company");
-      $("#courseOfStudy").attr('disabled', true);
+      $("#courseOfStudy").hide();
       $("#companyModalForm").attr('action', 'companies/edit');
     }
     else if (type == "add")
@@ -230,39 +231,12 @@ $(document).ready(function () {
       $('#companyModal').modal('show');
       $('#addModalLabel').text('Add new company');
       $('#companyModalForm')[0].reset();
-      $("#courseOfStudy").attr('disabled', false);
+      $("#courseOfStudy").show()
       $("#submitCompany").text("Add company");
       $("#companyModalForm").attr('action', 'companies/add');
     }
   }
 
-  // function addorEditCompany(url, action){
-  //   console.log("Adding company");
-  //   return submitFormFn({
-  //     url : url,
-  //     formId : "companyModalForm",
-  //     submitBtnId : "submitCompany",
-  //     success: function (response) {
-  //       $('#companyModalForm')[0].reset();
-  //       $('#companyModal').modal('hide');
-  //       getCompanies(null, "companies/all").then((response) => {
-  //         if (response && response.length > 0) {
-  //           $("#company-datatable").show();
-  //           drawDataTable("#companies", response);
-  //         } else {
-  //           $("#company-datatable").hide();
-  //           fireAlert('error', 'Not Found', 'Search returned an empty result');
-  //         }
-  //       });
-  //       fireAlert("success", "Company " + action + " successfully", `${response.company_name} has been ${action}.`);
-  //     },
-  //     error: function(xhr, status, error) {
-  //       console.log("new error ", xhr, xhr.responseText);
-  //       fireAlert("error", "An error occurred while adding the company", `${error}`)
-  //     }
-      
-  //   });
-  // }
 
   $("#new-company").click(function (e) {
     e.preventDefault();
@@ -287,6 +261,27 @@ $(document).ready(function () {
       success: function (response) {
         $('#companyModalForm')[0].reset();
         $('#companyModal').modal('hide');
+        // var table = $('#companies').DataTable();
+        // var color;
+
+        // if (action == "updated"){
+        //   table.row( function ( idx, data, node ) {
+        //     return data.id === response.id ?
+        //         true : false;
+        //   }).remove();
+        //   color = "blue";
+        // }
+        // else {
+        //   color = "green";
+        // }
+
+        // var rowNode = table.row
+        //     .add(response)
+        //     .draw()
+        //     .node();
+        // $(rowNode)
+        //     .css('color', color)
+        //     .animate({ color: 'black' });
         getCompanies(null, "companies/all").then((response) => {
           if (response && response.length > 0) {
             $("#company-datatable").show();
