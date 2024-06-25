@@ -16,7 +16,7 @@ export function getJqFormFields(formData) {
     // Returns an object with attribute field name and equivalent jquery object
     let jqFormFields = {};
     for (const field of formData.keys()) {
-        jqFormFields[field] = $(`#${field}`);
+        jqFormFields[field] = $(`[name="${field}"]`);
       }
     return jqFormFields;
 }
@@ -52,7 +52,7 @@ export function handleFieldErrors(fields, errors, errorLabelSuffix = '_error'){
         }else{
             fireAlert('error', 'Oh No!', 'You have some errors in your input');
             if (error in fields && error in errors){
-                errorField = $(`#${fields[error].attr('id')}${errorLabelSuffix}`);console.log(errorField, error);
+                errorField = $(`#${fields[error].attr('name')}${errorLabelSuffix}`);console.log(fields, error);
 
                 errorField.html("<p>* " + errors[error].join("</p><p>* " ) + "</p>");
                 errorField.css('display', 'block');
@@ -103,42 +103,63 @@ export function submitFormFn(options) {
     const settings = {...defaults, ...options};
 
     $(`#${settings.submitBtnId}`).click(function (e) {
+        console.log("Button clicked 001");
         e.preventDefault();
         // Remove previous error texts
         $(`.${settings.errorClass}`).text("");
         $(`.${settings.errorClass}`).css('display', 'none');
 
         // Disable the button and show processing text
-        const btnText = $(this).text();
         $(this).prop('disabled', true).text(settings.submitBtnProcessingText);
 
         const form = $(`#${settings.formId}`).get()[0]
         const formData = new FormData(form);
+        const thisBtn = $(this);
+        const btnText = $(this).text();
+
+        execAjax(settings, formData, thisBtn, btnText);
 
         // Send Ajax request to create student profile
-        return $.ajax({
-            type: "POST",
-            url: settings.url,
-            // headers: {
-            //     "Authorization": `Token ${getAuthToken()}`,
-            // },
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                $(`#${settings.submitBtnId}`).prop('disabled', false).text(btnText);
-                // console.log(response);
-                if (typeof settings.success == 'function'){
-                    settings.success(response);
+    })
+    
+}
+
+export function execAjax(settings, formData, thisBtn, btnText) {
+    $.ajax({
+        type: "POST",
+        url: settings.url,
+        // headers: {
+        //     "Authorization": `Token ${getAuthToken()}`,
+        // },
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            thisBtn.prop('disabled', false).text(btnText);
+            console.log(response);
+            if (typeof settings.success == 'function'){
+                console.log("Ajax Successful calling settings.success");
+                settings.success(response);
+            };
+        },
+        error: function (xhr, status, error) {
+            $(`#${settings.submitBtnId}`).prop('disabled', false).text(btnText);
+            if (typeof settings.error == 'function'){
+                console.log("Ajax Error, calling settings.success");
+                settings.error(xhr, status, error);
+            };
+            if (settings.errorClass) {
+                const fields = getJqFormFields(formData);
+                const errors = xhr.responseJSON;
+                
+
+                if (xhr.status == 400){
+                    handleFieldErrors(fields, errors);
+                }else{
+                    fireAlert('error','Server Error','It is not you. It is us and we are currently solving this issue.');
                 };
-            },
-            error: function (xhr, status, error) {
-                $(`#${settings.submitBtnId}`).prop('disabled', false).text(btnText);
-                if (typeof settings.error == 'function'){
-                    settings.error(xhr, status, error);
-                }
-            }
-        })
+            };
+        }
     })
 }
 
@@ -183,23 +204,27 @@ export function populateDropdownSelect(array, parentDropdownId, childDropdownId,
 }
 
 export function populateState(course, state_id="states"){
+    $(`#${state_id}`).empty();
+    console.log(course);
     $.ajax({
         type: "POST",
         data: {course},
         url: 'companies/states',
         success: function (response) {
+            console.log(response);
             response = JSON.parse(response);
             drawState(response, state_id);
         },
         error: function(xhr, status, error){
             console.log(xhr, xhr.responseText);
-            fireAlert('error','Error getting cities','We couldn\'t load the list of states');
+            fireAlert('error','Error getting states','We couldn\'t load the list of states');
         }
     });
 
 }
 
 export function populateCity(course, state, cities_id="cities"){
+    $(`#${cities_id}`).empty();
     $.ajax({
         type: "POST",
         data: {course, state},

@@ -92,7 +92,7 @@ class CompanyController
      */
     public static function course_states(Router $router)
     {
-        if ($_POST && isset($_POST["course"]) && $_POST["course"]) {
+        if ($_POST && isset($_POST["course"])) {
             $course = '%' . str_replace("&amp;", "&", Help::clean($_POST["course"])) . '%';
             $query = "SELECT DISTINCT `state`
                       FROM company_directory 
@@ -248,6 +248,7 @@ class CompanyController
         if($_POST){
             header("Content-Type: application/json");
             $company = new Company($router->dbs, $_POST);
+            
             // print_r($_POST); exit;
             unset($_POST);
             
@@ -275,6 +276,108 @@ class CompanyController
 
         }
         header("Location: /siwes/dlc");
+
+        
+
+    }
+
+    /**
+     * destroy - View to update a new company
+     * @Router: an instance of Router class
+     */
+    public static function destroy(Router $router)
+    {
+        if($_POST){
+            header("Content-Type: application/json");
+            $company = new Company($router->dbs, $_POST);
+            unset($_POST);
+
+            $num_deleted = $company->delete();
+            if (! $num_deleted)
+            {
+                http_response_code(400);
+                $error =(object) [
+                    "error" => "Company with that ID does not exist",
+                ];
+
+                echo json_encode($error);
+                exit;
+            }
+            
+            else
+            {
+                http_response_code(204);
+                exit;
+            }
+            exit;
+        }
+
+        header("Location: /siwes/dlc");
+    }
+
+    /**
+     * suggest - View to give suggestions based on users input a new company
+     * @Router: an instance of Router class
+     */
+    public static function suggest(Router $router)
+    {
+
+        if ($_POST && isset($_POST["where"]) && isset($_POST["find"])) {
+            $where = str_replace("&amp;", "&", Help::clean($_POST["where"]));
+            $find = str_replace("&amp;", "&", Help::clean($_POST["find"])) . '%';
+            $query = "SELECT `$where`
+                      FROM company_directory 
+                      WHERE `$where` LIKE :find LIMIT 3";
+        
+            try {
+                $q = $router->dbs->conn->prepare($query);
+                // echo $query; exit;
+                $q->bindParam(':find', $find, \PDO::PARAM_STR);
+                $q->execute();
+                $data = $q->fetchAll(\PDO::FETCH_ASSOC);
+                
+                $suggestions = [];
+                // print_r($suggestions); exit;
+                foreach ($data as $row) {
+                    $suggestions[] = $row[$where];
+                }
+                
+                echo json_encode($suggestions);
+            } catch (\PDOException $err) {
+                echo $err->getMessage();
+                throw new \Exception("Error Processing Request", 1);  
+            }
+        }
+        // if($_POST){
+        //     header("Content-Type: application/json");
+        //     $company = new Company($router->dbs, $_POST);
+        //     // print_r($_POST); exit;
+        //     unset($_POST);
+            
+        //     $errorBag = $company->save(true);
+            
+        //     if ($errorBag->errors)
+        //     {
+        //         http_response_code(400);
+
+        //         echo json_encode($errorBag->errors);
+        //         exit;
+        //     }
+        //     else if ($errorBag->last_inserted)
+        //     {
+        //         http_response_code(200);
+        //         echo json_encode($errorBag->inserted_obj);
+        //         exit;
+        //     }
+        //     else
+        //     {
+        //         http_response_code(500);
+        //         echo json_encode($errorBag);
+        //         exit;
+        //     }
+
+        // }
+        // header("Location: /siwes/dlc");
 
         
 

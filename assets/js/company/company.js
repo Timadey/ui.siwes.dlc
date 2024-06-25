@@ -1,10 +1,11 @@
-import { fireAlert, populateCity, populateCourseOfStudy, populateState, submitFormFn } from "../utils.js";
+import { populateCity, populateCourseOfStudy, populateState } from "../utils.js";
 
 $(document).ready(function() {
   $("#company-datatable").hide();
-
+  
   populateCourseOfStudy();
-
+  
+  
   $("#courses").change(function (e) { 
     e.preventDefault();
     $("#states").empty();
@@ -35,6 +36,7 @@ $(document).ready(function() {
     searchCompanies(formData).finally(() => {
       $submitButton.prop('disabled', false).text('Browse');
     });
+    // $submitButton.prop('disabled', false).text('Browse');
 
     ;
 

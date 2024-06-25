@@ -195,5 +195,14 @@ class Company extends Database
             return (object) $thisObj;
 
         }
+
+        /***
+         * delete - Delete a company using its ID
+         * @return error if company not found
+         */
+        public function delete(){
+                $num_deleted = $this->deleteData("`$this->table`",['`id`=:id'], [':id' => $this->id->value]);
+                return $num_deleted;
+        }
 }
 ?>

@@ -62,9 +62,11 @@ $authMiddlewareRequired = [
     $router->post('/siwes/dlc/backdoor/companies/states', [CompanyController::class, 'course_states']),
     $router->post('/siwes/dlc/backdoor/companies/cities', [CompanyController::class, 'course_states_city']),
     $router->post('/siwes/dlc/backdoor/companies/search', [CompanyController::class, 'filter']),
+    $router->post('/siwes/dlc/backdoor/companies/suggest', [CompanyController::class, 'suggest']),
     $router->post('/siwes/dlc/backdoor/companies/all', [CompanyController::class, 'all']),
     $router->post('/siwes/dlc/backdoor/companies/add', [CompanyController::class, 'store'],
     $router->post('/siwes/dlc/backdoor/companies/edit', [CompanyController::class, 'update']),
+    $router->post('/siwes/dlc/backdoor/companies/delete', [CompanyController::class, 'destroy']),
 ),
 
 ];
