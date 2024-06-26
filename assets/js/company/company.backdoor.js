@@ -80,6 +80,7 @@ $(document).ready(function () {
         contentType: false,
         processData: false,
         success: function (response) {
+          console.log(response);
           resolve(response);
         },
         error: function (xhr, status, error) {
@@ -202,38 +203,51 @@ $(document).ready(function () {
   function prefillModal(rowData){
     Object.keys(rowData).forEach(key => {
       const inputField = $(`[name="${key}"]`);
-      // console.log(inputField);
 
+      const val = rowData[key];
+      if (key === "course_of_study"){
+        if (val.includes(','))
+          {
+            var courseOfStudyDropdown = $("#courseOfStudy");
+            courseOfStudyDropdown.append($('<option>').text(val).attr('value', val));
+          }
+      }
       if (inputField.length > 0) {
-        inputField.val(rowData[key]);
+        inputField.val(val);
       }
     });
 
     // populate city or area
     populateCity("", $("#stateInModal").val(), "cityOrArea");
     $("#cityOrArea").val(rowData['city_or_area']);
-
-    
   }
 
   function setModalAction(type="add")
   {
+    const modalLabel = $('#addModalLabel');
+    const companyModal = $('#companyModal');
+    const submitButton = $("#submitCompany");
+    const form = $("#companyModalForm");
+    const courseOfStudy = $("#courseOfStudy");
+
     if (type == "edit")
     {
-      $('#addModalLabel').text('Edit company');
-      $('#companyModal').modal('show');
-      $("#submitCompany").text("Edit company");
-      $("#courseOfStudy").hide();
-      $("#companyModalForm").attr('action', 'companies/edit');
+      modalLabel.text('Edit company');
+      companyModal.modal('show');
+      submitButton.text("Edit company");
+      courseOfStudy.attr('required', false);
+      courseOfStudy.hide();
+      form.attr('action', 'companies/edit');
     }
     else if (type == "add")
     {
-      $('#companyModal').modal('show');
-      $('#addModalLabel').text('Add new company');
-      $('#companyModalForm')[0].reset();
-      $("#courseOfStudy").show()
-      $("#submitCompany").text("Add company");
-      $("#companyModalForm").attr('action', 'companies/add');
+      companyModal.modal('show');
+      modalLabel.text('Add new company');
+      form[0].reset();
+      courseOfStudy.attr('required', true);
+      courseOfStudy.show()
+      submitButton.text("Add company");
+      form.attr('action', 'companies/add');
     }
   }
 
@@ -243,17 +257,12 @@ $(document).ready(function () {
     setModalAction("add");
   })
 
-  $("form#companyModalForm").submit(function (e) { 
+  $(document).on('submit', 'form#companyModalForm', function (e) { 
     e.preventDefault();
     const url = $(this).attr("action");
-    var action;
-    if (url == "companies/add")
-    {
-      action = "added";
-    }
-    else {
-      action = "updated";
-    }
+    console.log(url);
+    const action = (url === "companies/add") ? "added" : "updated";
+
     submitFormFn({
       url : url,
       formId : "companyModalForm",

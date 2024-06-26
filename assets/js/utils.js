@@ -102,25 +102,21 @@ export function submitFormFn(options) {
 
     const settings = {...defaults, ...options};
 
-    $(`#${settings.submitBtnId}`).click(function (e) {
-        console.log("Button clicked 001");
-        e.preventDefault();
-        // Remove previous error texts
-        $(`.${settings.errorClass}`).text("");
-        $(`.${settings.errorClass}`).css('display', 'none');
+    // Remove previous error texts
+    $(`.${settings.errorClass}`).text("");
+    $(`.${settings.errorClass}`).css('display', 'none');
 
-        // Disable the button and show processing text
-        $(this).prop('disabled', true).text(settings.submitBtnProcessingText);
+    // Disable the button and show processing text
+    $(this).prop('disabled', true).text(settings.submitBtnProcessingText);
 
-        const form = $(`#${settings.formId}`).get()[0]
-        const formData = new FormData(form);
-        const thisBtn = $(this);
-        const btnText = $(this).text();
+    const form = $(`#${settings.formId}`).get()[0]
+    const formData = new FormData(form);
+    const thisBtn = $(this);
+    const btnText = $(this).text();
 
-        execAjax(settings, formData, thisBtn, btnText);
+    execAjax(settings, formData, thisBtn, btnText);
 
         // Send Ajax request to create student profile
-    })
     
 }
 
@@ -170,6 +166,7 @@ export function execAjax(settings, formData, thisBtn, btnText) {
 export function populateDropdownSelect(array, parentDropdownId, childDropdownId, step=2){
     // Populate state dropdown options
     var parentDropdown = $(`#${parentDropdownId}`);
+    parentDropdown.empty();
     parentDropdown.append($('<option>').text(`Select ${parentDropdownId}`).attr('value', ""));
     if (!childDropdownId || step == 1){
         Object.values(array).forEach(function(elem) {
