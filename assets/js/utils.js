@@ -107,12 +107,13 @@ export function submitFormFn(options) {
     $(`.${settings.errorClass}`).css('display', 'none');
 
     // Disable the button and show processing text
-    $(this).prop('disabled', true).text(settings.submitBtnProcessingText);
+    const btnFormerText = $(`#${settings.submitBtnId}`).text();
+    $(`#${settings.submitBtnId}`).prop('disabled', true).text(settings.submitBtnProcessingText);
 
     const form = $(`#${settings.formId}`).get()[0]
     const formData = new FormData(form);
-    const thisBtn = $(this);
-    const btnText = $(this).text();
+    const thisBtn = $(`#${settings.submitBtnId}`);
+    const btnText = btnFormerText;
 
     execAjax(settings, formData, thisBtn, btnText);
 

@@ -45,8 +45,10 @@ $(document).ready(function () {
       searchable: false,
       render: function (data, type, row, meta) {
         return `
-          <button class="btn btn-primary edit-btn" data-row='${JSON.stringify(row)}'>Edit</button>
-          <button class="btn btn-danger delete-btn" data-row-id='${row.id}'>Delete</button>
+          <div style="display: flex; gap:4px;">
+          <button class="btn btn-primary edit-btn" data-row='${JSON.stringify(row)}'><i class="fa-regular fa-pen-to-square"></i></button>
+          <button class="btn btn-danger delete-btn" data-row-id='${row.id}'><i class="fa-regular fa-trash-can"></i></button>
+          </div>
         `;
       }
   }];
@@ -280,10 +282,10 @@ $(document).ready(function () {
               return data.id === response.id ?
                   true : false;
             }).remove();
-            color = "blue";
+            color = "#0000bf80";
           }
           else {
-            color = "green";
+            color = "#9dfd9d";
           }
   
           var rowNode = table.row
@@ -291,8 +293,7 @@ $(document).ready(function () {
               .draw()
               .node();
           $(rowNode)
-              .css('color', color)
-              .animate({ color: 'black' });
+              .css('background-color', color);
         }else {
             getCompanies(null, "companies/all").then((response) => {
             if (response && response.length > 0) {
@@ -304,16 +305,7 @@ $(document).ready(function () {
             }
           });
         }
-        console.log("submit response :", response);
-        // getCompanies(null, "companies/all").then((response) => {
-        //   if (response && response.length > 0) {
-        //     $("#company-datatable").show();
-        //     drawDataTable("#companies", response);
-        //   } else {
-        //     $("#company-datatable").hide();
-        //     fireAlert('error', 'Not Found', 'Search returned an empty result');
-        //   }
-        // });
+        // console.log("submit response :", response);
         fireAlert("success", "Company " + action + " successfully", `${response.company_name} has been ${action}.`);
       },
       error: function(xhr, status, error) {
@@ -453,9 +445,9 @@ $(document).ready(function () {
   });
 
 
-  $("#companyModalForm").on("focus", function(e) {
+  $("#companyModalForm").on("focus", "#companyAddress", function(e) {
     // Check if the focused element is not #companyName input
-    console.log(e);
+    // console.log(e);
     if (!$(e.target).is("#companyName")) {
       removeSuggestion();
     }
@@ -474,7 +466,7 @@ $(document).ready(function () {
       suggestionList.append(`<li class="dropdown-item">${suggestion}</li>`);
     });
     suggestionList.append('<li><hr class="dropdown-divider"></li>');
-    suggestionList.append('<li><a class="dropdown-item bg-danger" id="remove-suggestion"> x remove</a></li>');
+    suggestionList.append('<li><a class="dropdown-item" style="background-color:#fda8b0 !important" id="remove-suggestion"> [x] remove</a></li>');
 
   }
 

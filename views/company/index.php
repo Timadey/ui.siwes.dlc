@@ -1,8 +1,18 @@
 <section class="details">
 
-  <div style='margin-bottom:4px; display:flex;justify-content:center''>
+  <div style='margin-bottom:4px; display:flex;justify-content:center'>
       <img src='/siwes/dlc/assets/images/logo_new.png'>
   </div>
+  <?php if (isset($_SESSION['user_id'])) { ?>
+  <div style="display: flex; justify-content:right; gap: 8px; margin:8px;">
+    <div>
+        <button type="button" id="get-all-companies" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Get all companies</button>
+      </div>
+      <div>
+        <button type="button" id="new-company" class="btn btn-success"><i class="fa-solid fa-circle-plus"></i> New Company</button>
+      </div>
+  </div>
+  <?php } ?>
   <div>
     <h5>INDUSTRIAL TRAINING</h5>
     <h1>Company Directory</h1>
@@ -37,16 +47,16 @@
 
 
       <div class="col-auto">
-        <button type="submit" id="submit-browse" class="btn btn-primary">Browse</button>
+        <button type="submit" id="submit-browse" class="btn btn-primary" ><i class="fa-brands fa-searchengin"></i> Browse</button>
       </div>
-      <?php if (isset($_SESSION['user_id'])) { ?>
+      <!-- <?php if (isset($_SESSION['user_id'])) { ?>
         <div class="col-auto">
-          <button type="button" id="get-all-companies" class="btn btn-danger">Get all companies</button>
+          <button type="button" id="get-all-companies" class="btn btn-danger"><i class="fa-solid fa-globe"></i> Get all companies</button>
         </div>
         <div class="col-auto">
-          <button type="button" id="new-company" class="btn btn-secondary">+ New Company</button>
+          <button type="button" id="new-company" class="btn btn-secondary"><i class="fa-solid fa-circle-plus"></i> New Company</button>
         </div>
-      <?php } ?>
+      <?php } ?> -->
     </form>
   </div>
     <div id="company-datatable" class="card text-center">
@@ -63,7 +73,7 @@
       </div>
     </div>
     <?php if (isset($_SESSION['user_id'])) { ?>
-      <div class="modal fade" id="companyModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+      <div class="modal fade" id="companyModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -79,7 +89,7 @@
                   <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="companyName" name="company_name" placeholder="John & Doe Co.">
                     <label for="companyName" class="form-label">Company Name</label>
-                    <ul id="companyNameSuggestionList" class="dropdown-menu bg-secondary" aria-labelledby="companyName">
+                    <ul id="companyNameSuggestionList" class="dropdown-menu" style="background-color: #e4e1e1e0;" aria-labelledby="companyName">
                     <li><a class="dropdown-item" href="#">Action</a></li>
                       <li><a class="dropdown-item" href="#">Another action</a></li>
                       <li><a class="dropdown-item" href="#">Something else here</a></li>
