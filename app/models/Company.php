@@ -141,7 +141,9 @@ class Company extends Database
                         ], [ // This insertData implementation is not efficient, needs refactoring and optimization - Timothy
                                 ':company_name' => $this->company_name->value,
                                 ':address' => $this->company_address->value,
-                                ':course_of_study' => $this->course_of_study->value,
+                                ':course_of_study' => $this->course_of_study->value
+                                                        ? htmlspecialchars_decode($this->course_of_study->value) 
+                                                        : $this->course_of_study->value,
                                 ':city_or_area' => $this->city_or_area->value,
                                 ':state' => $this->state->value,
                                 ':email' => $this->email->value,
@@ -159,7 +161,9 @@ class Company extends Database
                                 ':id' => $this->id->value,
                                 ':company_name' => $this->company_name->value,
                                 ':address' => $this->company_address->value,
-                                ':course_of_study' => $this->course_of_study->value,
+                                ':course_of_study' => $this->course_of_study->value
+                                                        ? htmlspecialchars_decode($this->course_of_study->value) 
+                                                        : $this->course_of_study->value,
                                 ':city_or_area' => $this->city_or_area->value,
                                 ':state' => $this->state->value,
                                 ':email' => $this->email->value,
@@ -174,7 +178,7 @@ class Company extends Database
                         return $saved_obj;
                 }
                 // $this->clear();
-                $this->id->value = (int)$last_inserted;
+                $this->id->value = $update == true ? (int) $this->id->value : (int)$last_inserted;
                 $saved_obj->last_inserted = $this->id;
                 $saved_obj->inserted_obj = $this->thisObj();
                 return $saved_obj;

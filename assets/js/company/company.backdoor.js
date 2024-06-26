@@ -270,36 +270,50 @@ $(document).ready(function () {
       success: function (response) {
         $('#companyModalForm')[0].reset();
         $('#companyModal').modal('hide');
-        // var table = $('#companies').DataTable();
-        // var color;
-
-        // if (action == "updated"){
-        //   table.row( function ( idx, data, node ) {
-        //     return data.id === response.id ?
-        //         true : false;
-        //   }).remove();
-        //   color = "blue";
-        // }
-        // else {
-        //   color = "green";
-        // }
-
-        // var rowNode = table.row
-        //     .add(response)
-        //     .draw()
-        //     .node();
-        // $(rowNode)
-        //     .css('color', color)
-        //     .animate({ color: 'black' });
-        getCompanies(null, "companies/all").then((response) => {
-          if (response && response.length > 0) {
-            $("#company-datatable").show();
-            drawDataTable("#companies", response);
-          } else {
-            $("#company-datatable").hide();
-            fireAlert('error', 'Not Found', 'Search returned an empty result');
+        if ($.fn.DataTable.isDataTable($('#companies')))
+        {
+          var table = $('#companies').DataTable();
+          var color;
+  
+          if (action == "updated"){
+            table.row( function ( idx, data, node ) {
+              return data.id === response.id ?
+                  true : false;
+            }).remove();
+            color = "blue";
           }
-        });
+          else {
+            color = "green";
+          }
+  
+          var rowNode = table.row
+              .add(response)
+              .draw()
+              .node();
+          $(rowNode)
+              .css('color', color)
+              .animate({ color: 'black' });
+        }else {
+            getCompanies(null, "companies/all").then((response) => {
+            if (response && response.length > 0) {
+              $("#company-datatable").show();
+              drawDataTable("#companies", response);
+            } else {
+              $("#company-datatable").hide();
+              fireAlert('error', 'Not Found', 'Search returned an empty result');
+            }
+          });
+        }
+        console.log("submit response :", response);
+        // getCompanies(null, "companies/all").then((response) => {
+        //   if (response && response.length > 0) {
+        //     $("#company-datatable").show();
+        //     drawDataTable("#companies", response);
+        //   } else {
+        //     $("#company-datatable").hide();
+        //     fireAlert('error', 'Not Found', 'Search returned an empty result');
+        //   }
+        // });
         fireAlert("success", "Company " + action + " successfully", `${response.company_name} has been ${action}.`);
       },
       error: function(xhr, status, error) {
@@ -312,7 +326,7 @@ $(document).ready(function () {
 
   $("#get-all-companies").click(function (e) { 
     e.preventDefault();
-    
+      $("#new-company").show();
       const $submitButton = $(this);
       $submitButton.prop('disabled', true).text('Processing...');
       searchCompanies(null, "companies/all").finally(() => {
