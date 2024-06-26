@@ -16,10 +16,12 @@ class Router
         public function get($url, $fn)
         {
                 $this->getRoutes[$url] = $fn;
+                return $url;
         }
         public function post($url, $fn)
         {
                 $this->postRoutes[$url] = $fn;
+                return $url;
         }
         public function resolve()
         {

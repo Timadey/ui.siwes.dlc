@@ -3,6 +3,7 @@ namespace app\operations;
 
 include_once __DIR__."../../../config/config.php";
 
+use app\helpers\Help;
 use PDO;
 /**
  * Database - Handles repetitive actions done on database
@@ -69,8 +70,8 @@ class Database
      * Return: an associative array containing the fields gotten or NULL if not found
      */
     public function dbGetData(array $column = NULL, string $from, array $join = NULL,
-     array $where, array $value, string $order = null,
-    array $limit = null)
+     array $where = NULL, array $value = NULL, string $order = null,
+    array $limit = null, bool $like = false)
     {
         if ($this->conn == NULL){
             throw New \Exception("Database connection not found");
@@ -83,18 +84,23 @@ class Database
         }
 
         if ($column == NULL){
-            $query = "SELECT * FROM $from WHERE ";
+            $query = "SELECT * FROM $from";
         }else{
             $column = implode(", ", $column);
-            $query = "SELECT $column FROM $from WHERE ";
+            $query = "SELECT $column FROM $from";
+        }
+
+        if ($where != NULL) {
+            $query .= " WHERE ";
+            $where_list = array();
+            
+            foreach ($where as $col => $ph) {
+                $where_list[] = $like ? $col.' LIKE '.$ph : $col.' = '.$ph;
+            }
+            $where = implode(' AND ', $where_list);
+            $query .= $where;
         }
         
-        $where_list = array();
-        foreach ($where as $col => $ph) {
-            $where_list[] = $col.' = '.$ph;
-        }
-        $where = implode(' AND ', $where_list);
-        $query .= $where;
         $query .= $order ?? '';
         $query .= $limit ? " LIMIT ".implode(', ', $limit) : '';
         // echo $query; exit;
@@ -107,7 +113,7 @@ class Database
             }; return NULL;
             
         } catch (\PDOException $err) {
-            echo $err->getMessage();
+            // echo $err->getMessage();
             throw new \Exception("Error Processing Request", 1);  
         }
     }
@@ -141,7 +147,7 @@ class Database
             return ($this->conn->lastInsertId());
         }
         catch (\PDOException $err) {
-            echo ($err->getMessage()); exit;
+            // echo ($err->getMessage()); exit;
             throw new \Exception("Error Processing Request", 1);  
         }
     }
@@ -164,14 +170,16 @@ class Database
         $query .=$set_list." WHERE ";
         $where_list = implode(' AND ', $where);
         $query .=$where_list;
-        //echo $query;
-        //exit;
+        // echo $query;
+        // exit;
         try{
             $q = $this->conn->prepare($query);
             $q->execute($values);
+            // print_r($result); exit;
             return (true);
         }
         catch (\PDOException $err) {
+            // echo ($err->getMessage()); exit;
             return (false); 
         }
 
