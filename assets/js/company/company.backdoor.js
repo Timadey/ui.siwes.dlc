@@ -82,7 +82,7 @@ $(document).ready(function () {
         contentType: false,
         processData: false,
         success: function (response) {
-          console.log(response);
+          // console.log(response);
           resolve(response);
         },
         error: function (xhr, status, error) {
@@ -150,7 +150,7 @@ $(document).ready(function () {
         if (result.isConfirmed) {
           deleteCompany(rowId).then(
             (response)  => {
-              console.log(response);
+              // console.log(response);
               Swal.fire({
                 title: "Deleted!",
                 text: "Company has been deleted.",
@@ -163,7 +163,7 @@ $(document).ready(function () {
 
             }, 
             (xhr, status, error) => {
-              console.log(xhr, xhr.responseText);
+              // console.log(xhr, xhr.responseText);
               fireAlert('error','Error in deleting company');
             }
           )}
@@ -193,7 +193,7 @@ $(document).ready(function () {
         },
         error: function(xhr, status, error){
           reject(xhr, status, error);
-          console.log(xhr, xhr.responseText);
+          // console.log(xhr, xhr.responseText);
           fireAlert('error','Error in deleting company');
         }
       });
@@ -262,7 +262,7 @@ $(document).ready(function () {
   $(document).on('submit', 'form#companyModalForm', function (e) { 
     e.preventDefault();
     const url = $(this).attr("action");
-    console.log(url);
+    // console.log(url);
     const action = (url === "companies/add") ? "added" : "updated";
 
     submitFormFn({
@@ -309,7 +309,7 @@ $(document).ready(function () {
         fireAlert("success", "Company " + action + " successfully", `${response.company_name} has been ${action}.`);
       },
       error: function(xhr, status, error) {
-        console.log("new error ", xhr, xhr.responseText);
+        // console.log("new error ", xhr, xhr.responseText);
         fireAlert("error", "An error occurred while adding the company", `${error}`)
       }
       

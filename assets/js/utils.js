@@ -52,7 +52,8 @@ export function handleFieldErrors(fields, errors, errorLabelSuffix = '_error'){
         }else{
             fireAlert('error', 'Oh No!', 'You have some errors in your input');
             if (error in fields && error in errors){
-                errorField = $(`#${fields[error].attr('name')}${errorLabelSuffix}`);console.log(fields, error);
+                errorField = $(`#${fields[error].attr('name')}${errorLabelSuffix}`);
+                // console.log(fields, error);
 
                 errorField.html("<p>* " + errors[error].join("</p><p>* " ) + "</p>");
                 errorField.css('display', 'block');
@@ -133,16 +134,16 @@ export function execAjax(settings, formData, thisBtn, btnText) {
         processData: false,
         success: function (response) {
             thisBtn.prop('disabled', false).text(btnText);
-            console.log(response);
+            // console.log(response);
             if (typeof settings.success == 'function'){
-                console.log("Ajax Successful calling settings.success");
+                // console.log("Ajax Successful calling settings.success");
                 settings.success(response);
             };
         },
         error: function (xhr, status, error) {
             $(`#${settings.submitBtnId}`).prop('disabled', false).text(btnText);
             if (typeof settings.error == 'function'){
-                console.log("Ajax Error, calling settings.success");
+                // console.log("Ajax Error, calling settings.success");
                 settings.error(xhr, status, error);
             };
             if (settings.errorClass) {
@@ -203,18 +204,18 @@ export function populateDropdownSelect(array, parentDropdownId, childDropdownId,
 
 export function populateState(course, state_id="states"){
     $(`#${state_id}`).empty();
-    console.log(course);
+    // console.log(course);
     $.ajax({
         type: "POST",
         data: {course},
         url: 'companies/states',
         success: function (response) {
-            console.log(response);
+            // console.log(response);
             response = JSON.parse(response);
             drawState(response, state_id);
         },
         error: function(xhr, status, error){
-            console.log(xhr, xhr.responseText);
+            // console.log(xhr, xhr.responseText);
             fireAlert('error','Error getting states','We couldn\'t load the list of states');
         }
     });
@@ -232,7 +233,7 @@ export function populateCity(course, state, cities_id="cities"){
             populateDropdownSelect(response, cities_id);
         },
         error: function(xhr, status, error){
-            console.log(xhr, xhr.responseText);
+            // console.log(xhr, xhr.responseText);
             fireAlert('error','Error getting cities','We couldn\'t load the list of cities');
         }
     });
@@ -254,7 +255,7 @@ export function populateCourseOfStudy(course_id="courses"){
             populateDropdownSelect(response, course_id);
         },
         error: function(xhr, status, error){
-            console.log(xhr, xhr.responseText);
+            // console.log(xhr, xhr.responseText);
             fireAlert('error','Error getting course of study','We couldn\'t load the list of courses of study');
         }
     });
